@@ -1,0 +1,41 @@
+{
+  "connection": "default",
+  "collectionName": "shoes",
+  "info": {
+    "name": "shoes",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "default": "",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "type": "text"
+    },
+    "store": {
+      "default": "",
+      "type": "integer"
+    },
+    "isAvaible": {
+      "default": false,
+      "type": "boolean"
+    },
+    "img": {
+      "model": "file",
+      "via": "related",
+      "plugin": "upload",
+      "required": false
+    },
+    "price": {
+      "default": "",
+      "type": "integer"
+    }
+  }
+}

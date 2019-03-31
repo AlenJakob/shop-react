@@ -1,0 +1,31 @@
+{
+  "connection": "default",
+  "collectionName": "products",
+  "info": {
+    "name": "products",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "comment": ""
+  },
+  "attributes": {
+    "name": {
+      "default": "",
+      "type": "string"
+    },
+    "description": {
+      "default": "",
+      "type": "string"
+    },
+    "store": {
+      "default": "",
+      "type": "integer"
+    },
+    "isAvaible": {
+      "default": false,
+      "type": "boolean"
+    }
+  }
+}
