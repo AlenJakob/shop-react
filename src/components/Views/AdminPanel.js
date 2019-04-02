@@ -9,7 +9,7 @@ class AdminPanel extends Component {
         <div className="row center">
           <h3>Admin panel site</h3>
           <h5>
-            <b>add products:</b>
+            <b>product's:</b>
           </h5>
         </div>
         <div className="row">

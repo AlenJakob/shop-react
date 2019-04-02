@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import axios from "axios";
-
+import NameInput from "./dataInputs/NameInput";
+import DescriptionInput from "./dataInputs/DescriptionInput";
+import StoreInput from "./dataInputs/StoreInput";
+import PriceInput from "./dataInputs/PriceInput";
+import Editform from "../utils/EditForm";
 class ProductManagement extends Component {
   state = {
     showFormAdd: false,
-    showFormEdit: false,
+    hideForm: false,
     name: "",
     descritpion: "",
     store: 0,
     isAvaible: 1,
-    price: 0
+    price: 0,
+    currentId: 0
   };
   handleAddProduct = async () => {
     const token = localStorage.getItem("token");
@@ -44,25 +49,30 @@ class ProductManagement extends Component {
       return { showFormAdd: !this.state.showFormAdd };
     });
   };
-  handleProductName = event => {
+  showFormEdit = () => {
+    this.setState(() => {
+      return { hideForm: !this.state.hideForm };
+    });
+  };
+  handleProductName = name => {
     this.setState({
-      name: event.target.value
+      name
     });
     // function for test state
     // this.toReadState();
   };
-  handleProductDescritpion = event => {
+  handleProductDescritpion = description => {
     this.setState({
-      descritpion: event.target.value
+      description
     });
   };
-  handleProductStore = event => {
+  handleProductStore = store => {
     this.setState({
-      store: event.target.value
+      store
     });
   };
-  handleProductPrice = event => {
-    this.setState({ price: event.target.value });
+  handleProductPrice = price => {
+    this.setState({ price });
   };
   //   end
   toReadState = () => {
@@ -73,6 +83,9 @@ class ProductManagement extends Component {
     console.log("store :", this.state.store);
     console.log("****************************");
   };
+  test = () => {
+    console.log("TEST");
+  };
   componentDidMount = () => {};
   render() {
     return (
@@ -80,72 +93,47 @@ class ProductManagement extends Component {
         <button className="btn" onClick={this.showFormAdd}>
           add product
         </button>
+        <button className="btn m1h" onClick={this.showFormEdit}>
+          show/hide edit
+        </button>
+        <Editform hideForm={this.state.hideForm} />
         <form
-          onSubmit={this.handleAddProduct}
+          //* this.handleAddProduct */
+          onSubmit={
+            this.state.showFormAdd ? console.log("yes") : console.log("no")
+          }
           className={this.state.showFormAdd ? "" : "hide"}
         >
           <h5 className="m5">Product : </h5>
           <div className="container grey lighten-5 p2 z-depth-1">
             <div className="row ">
-              <div className="input-field col s6">
-                <input
-                  id="first_name2"
-                  type="text"
-                  className="validate"
-                  required
-                  value={this.state.name}
-                  onChange={this.handleProductName}
-                />
-                <label className="active" htmlFor="first_name2">
-                  product name
-                </label>
-              </div>
+              <NameInput
+                name={this.state.name}
+                handleProductName={this.handleProductName}
+              />
             </div>
             <div className="row">
-              <div className="input-field col s12">
-                <textarea
-                  required
-                  id="icon_prefix2"
-                  className="materialize-textarea"
-                  value={this.state.descritpion}
-                  onChange={this.handleProductDescritpion}
-                />
-                <label htmlFor="icon_prefix2">product descritpion</label>
-              </div>
+              <DescriptionInput
+                descritpion={this.state.descritpion}
+                handleProductDescritpion={this.handleProductDescritpion}
+              />
             </div>
             <div className="row">
-              <div className="col s2">
-                <input
-                  id="store"
-                  type="number"
-                  className=""
-                  value={this.state.store}
-                  onChange={this.handleProductStore}
-                />
-                <label className="active" htmlFor="store">
-                  store
-                </label>
-              </div>
-              <div className="col s2">
-                <input
-                  id="store"
-                  type="number"
-                  min="1"
-                  max="999"
-                  value={this.state.price}
-                  onChange={this.handleProductPrice}
-                />
-                <label className="active" htmlFor="store">
-                  set price
-                </label>
-              </div>
+              <PriceInput
+                price={this.state.price}
+                handleProductPrice={this.handleProductPrice}
+              />
+              <StoreInput
+                store={this.state.store}
+                handleProductStore={this.handleProductStore}
+              />
             </div>
             <div className="row">
               <div className="col s6">
                 <p>
                   <label>
                     <input type="checkbox" />
-                    <span>Available</span>
+                    <span>Available ( soon ) </span>
                   </label>
                 </p>
               </div>
