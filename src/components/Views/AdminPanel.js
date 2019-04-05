@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Products from "./Products";
+import ProductsList from "./ProductsList";
 import ProductManagement from "../ProductManagement";
 
 class AdminPanel extends Component {
@@ -17,7 +17,7 @@ class AdminPanel extends Component {
         </div>
         <div className="row">
           <div className="col s12">
-            <Products />
+            <ProductsList />
           </div>
         </div>
       </div>

@@ -1,7 +1,8 @@
 import React from "react";
 
-const PriceInput = props => {
-  const { price, handleProductPrice } = props;
+const IdInput = props => {
+  const { id, handleId } = props;
+  console.log( "product id :" , id);
   return (
     <div className="col s2">
       <input
@@ -9,14 +10,14 @@ const PriceInput = props => {
         type="number"
         min="1"
         max="999"
-        value={price}
-        onChange={e => handleProductPrice(e.target.value)}
+        value={id}
+        onChange={e => handleId(e.target.value)}
       />
       <label className="active" htmlFor="store">
-        set price
+        id
       </label>
     </div>
   );
 };
 
-export default PriceInput;
+export default IdInput;

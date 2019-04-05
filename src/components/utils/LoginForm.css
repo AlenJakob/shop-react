@@ -1,0 +1,5 @@
+.login__form {
+    display: flex;
+    justify-content: center;
+    max-width:350px;
+}

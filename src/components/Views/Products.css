@@ -29,14 +29,34 @@ h5 {
     padding: 0 !important;
 }
 
+/* Margin */
+.clean-m {
+    margin: 0;
+}
+
+/* Padding */
+.clean-p {
+    padding: 0;
+}
+
+/* Margin Vertical */
+.m1v {
+    margin: 1rem 0 !important;
+}
+
 .m2v {
     margin: 2rem 0 !important;
+}
+
+.m3v {
+    margin: 3rem 0 !important;
 }
 
 .m5 {
     margin: 5rem !important;
 }
 
+/* Margin Horizontal */
 .m1h {
     margin: 0 1rem !important;
 }
@@ -45,12 +65,32 @@ h5 {
     margin: 0 2rem !important;
 }
 
+.m3h {
+    margin: 0 3rem !important;
+}
+
+.m4h {
+    margin: 0 4rem !important;
+}
+
 .m5h {
     margin: 5rem 0 !important;
 }
 
+.m5w {
+    margin: 0 5rem !important;
+}
+
+.p1 {
+    padding: 1rem !important;
+}
+
 .p2 {
     padding: 2rem !important;
+}
+
+.p3 {
+    padding: 3rem !important;
 }
 
 .card__size {

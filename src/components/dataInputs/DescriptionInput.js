@@ -1,7 +1,7 @@
 import React from "react";
 
 const DescriptionInput = props => {
-  const { description, handleProductDescritpion } = props;
+  const { description, handleProductDescription } = props;
   return (
     <div className="input-field col s12">
       <textarea
@@ -9,7 +9,7 @@ const DescriptionInput = props => {
         id="icon_prefix2"
         className="materialize-textarea"
         value={description}
-        onChange={handleProductDescritpion}
+        onChange={e => handleProductDescription(e.target.value)}
       />
       <label htmlFor="icon_prefix2">product descritpion</label>
     </div>

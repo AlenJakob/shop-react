@@ -10,7 +10,7 @@ const StoreInput = props => {
                   min="1"
                   max="999"
                   value={store}
-                  onChange={handleProductStore}
+                  onChange={e => handleProductStore(e.target.value)}
                 />
                 <label className="active" htmlFor="store">
                   set price

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./Products.css";
-
-export default class Products extends Component {
+import "./styles/ProductsList.css";
+class Products extends Component {
   state = {
     products: [],
     productRemover: null,
@@ -10,6 +10,36 @@ export default class Products extends Component {
     showFormEdit: false,
     productId: 0,
     isAdmin: true
+  };
+  // remove product
+  handleProductRemove = async event => {
+    event.preventDefault();
+
+    const dataId = Number(
+      event.target.parentElement.parentElement.getAttribute("data-id")
+    );
+    const productToRemove = this.state.products.filter(product => {
+      return product.id === dataId ? product.id : false;
+    });
+    const productId = productToRemove[0]["id"];
+
+    return await axios
+      .delete(`http://localhost:1337/shoes/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${this.state.token}`
+        }
+      })
+      .then(res => {
+        return res.status === 200 ? window.location.reload() : false;
+      })
+      .catch(err => {
+        console.log(err, "Delete goes wrong !!!");
+      });
+  };
+  handleScrollToEditForm = e => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log();
   };
 
   async componentDidMount() {
@@ -22,6 +52,7 @@ export default class Products extends Component {
     this.setState(() => {
       return { products: productsList };
     });
+
     return await axios
       .post("http://localhost:1337/auth/local", {
         identifier: "grafuxa@gmail.com",
@@ -55,20 +86,44 @@ export default class Products extends Component {
                 <div className="card" data-id={item.id}>
                   <div className="card-image margin-center">
                     <img
+                      className="img__list-item"
                       alt="productimage"
                       src="http://pluspng.com/img-png/shoe-hd-png-footwear-289.png"
                     />
-                    <span className="card-title green darken-5 .center-align.">
-                      {item.name}
-                    </span>
                   </div>
-                  <h5 className="product__id">id: {item.id}</h5>
+                  <h5 className="product__id">
+                    id: <span className="orange-text">{item.id}</span>
+                  </h5>
+                  <h5 className="product__id">
+                    name: <span className="orange-text">{item.name}</span>
+                  </h5>
                   <div className="card-content">
                     <p>{item.description}</p>
                   </div>
+
                   <div className="card-action">
                     <a href="/#" className=" button btn">
                       more
+                    </a>
+                    <a
+                      href="/#"
+                      className={
+                        this.state.isAdmin ? " button btn red right" : "hide"
+                      }
+                      onClick={this.handleProductRemove}
+                    >
+                      remove
+                    </a>
+                    <a
+                      href="/#"
+                      className={
+                        this.state.isAdmin
+                          ? "button btn blue right m1h"
+                          : "hide"
+                      }
+                      onClick={this.handleScrollToEditForm}
+                    >
+                      edit
                     </a>
                   </div>
                   <div className="card-action card__size">
@@ -98,3 +153,6 @@ export default class Products extends Component {
     );
   }
 }
+
+export default Products;
+

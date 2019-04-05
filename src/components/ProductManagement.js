@@ -1,48 +1,109 @@
 import React, { Component } from "react";
 import axios from "axios";
-import NameInput from "./dataInputs/NameInput";
-import DescriptionInput from "./dataInputs/DescriptionInput";
-import StoreInput from "./dataInputs/StoreInput";
-import PriceInput from "./dataInputs/PriceInput";
-import Editform from "../utils/EditForm";
+import EditForm from "./utils/EditForm";
+import AddForm from "./utils/AddForm";
+
 class ProductManagement extends Component {
   state = {
-    showFormAdd: false,
-    hideForm: false,
+    products: [],
     name: "",
-    descritpion: "",
+    description: "",
     store: 0,
     isAvaible: 1,
     price: 0,
-    currentId: 0
+    hide: true,
+    id: 0,
+    token: ""
   };
-  handleAddProduct = async () => {
-    const token = localStorage.getItem("token");
-    await axios
+  handleAddProduct = async e => {
+    e.preventDefault();
+
+    return await axios
       .post(
         "http://localhost:1337/shoes",
         {
           name: this.state.name,
-          description: this.state.descritpion,
+          description: this.state.description,
           store: this.state.store,
           isAvaible: this.state.isAvaible,
           price: this.state.price
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${this.state.token}`,
             "Content-Type": "application/json"
           }
         }
       )
       .then(response => {
         if (response.status === 200) {
-          window.location.reload();
+          // window.location.reload();
+          console.log(response.status);
+          console.log(response);
         }
       })
       .catch(err => {
         console.log(err, "error <<");
       });
+  };
+  // Handle Edit Product.
+  handleEditProduct = async event => {
+    event.preventDefault();
+    // const dataId = Number(
+    //   event.target.parentElement.parentElement.getAttribute("data-id")
+    // );
+    // const productToEdit = await this.state.products.filter(product => {
+    //   return product.id === dataId ? product.id : false;
+    // });
+    // const productId = productToEdit[0]["id"];
+    // await this.setState(() => {
+    //   return {
+    //     id: this.state.id
+    //   };
+    // });
+    // Handle Scroll to Form.
+    // this.handleScrollToEditForm();
+    return await axios
+      .put(
+        `http://localhost:1337/shoes/${this.state.id}`,
+        {
+          name: this.state.name,
+          description: this.state.description,
+          store: this.state.store,
+          isAvaible: this.state.isAvaible,
+          price: this.state.price
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.state.token}`,
+            "Content-Type": "application/json"
+          }
+        }
+      )
+      .then(res => {
+        // return res.status === 200 ? window.location.reload() : false;
+        console.log(res.status);
+      })
+      .catch(err => {
+        console.log(err, "Edit goes wrong !!!");
+      });
+  };
+  hideForm = () => {
+    this.setState(() => {
+      return {
+        hide: !this.state.hide
+      };
+    });
+    console.log(this.state.hide);
+    this.setState(() => {
+      return {
+        name: "",
+        description: "",
+        store: "",
+        isAvaible: "",
+        price: ""
+      };
+    });
   };
   showFormAdd = () => {
     this.setState(() => {
@@ -50,99 +111,107 @@ class ProductManagement extends Component {
     });
   };
   showFormEdit = () => {
-    this.setState(() => {
-      return { hideForm: !this.state.hideForm };
-    });
+    this.setState(() => {});
   };
   handleProductName = name => {
     this.setState({
       name
     });
-    // function for test state
-    // this.toReadState();
+    // function to read actual state
+    this.toReadState();
   };
-  handleProductDescritpion = description => {
+  handleProductDescription = description => {
     this.setState({
       description
     });
+    this.toReadState();
   };
   handleProductStore = store => {
     this.setState({
       store
     });
+    this.toReadState();
   };
   handleProductPrice = price => {
     this.setState({ price });
+    this.toReadState();
+  };
+  handleId = id => {
+    this.setState({ id });
   };
   //   end
   toReadState = () => {
     console.log("****************************");
     console.log("name :", this.state.name);
+    console.log("desc :", this.state.description);
     console.log("price :", this.state.price);
-    console.log("desc :", this.state.descritpion);
     console.log("store :", this.state.store);
     console.log("****************************");
   };
   test = () => {
     console.log("TEST");
   };
-  componentDidMount = () => {};
+  componentDidMount = async () => {
+    await this.setState(() => {
+      return {
+        token: localStorage.getItem("token")
+      };
+    });
+    // window.onload = () => {
+    //   once = () => {
+    //     window.location.reload();
+    //   };
+    // };
+  };
+
   render() {
     return (
       <div>
-        <button className="btn" onClick={this.showFormAdd}>
-          add product
-        </button>
-        <button className="btn m1h" onClick={this.showFormEdit}>
-          show/hide edit
-        </button>
-        <Editform hideForm={this.state.hideForm} />
-        <form
-          //* this.handleAddProduct */
-          onSubmit={
-            this.state.showFormAdd ? console.log("yes") : console.log("no")
-          }
-          className={this.state.showFormAdd ? "" : "hide"}
-        >
-          <h5 className="m5">Product : </h5>
-          <div className="container grey lighten-5 p2 z-depth-1">
-            <div className="row ">
-              <NameInput
-                name={this.state.name}
-                handleProductName={this.handleProductName}
-              />
-            </div>
-            <div className="row">
-              <DescriptionInput
-                descritpion={this.state.descritpion}
-                handleProductDescritpion={this.handleProductDescritpion}
-              />
-            </div>
-            <div className="row">
-              <PriceInput
-                price={this.state.price}
-                handleProductPrice={this.handleProductPrice}
-              />
-              <StoreInput
-                store={this.state.store}
-                handleProductStore={this.handleProductStore}
-              />
-            </div>
-            <div className="row">
-              <div className="col s6">
-                <p>
-                  <label>
-                    <input type="checkbox" />
-                    <span>Available ( soon ) </span>
-                  </label>
-                </p>
-              </div>
-            </div>
-            <button className="waves-effect waves-light btn">
-              Add Product
+        <div className="center">
+          {this.state.hide ? (
+            <button className="btn m1h" onClick={this.hideForm}>
+              edit product
             </button>
-          </div>
-        </form>
+          ) : (
+            <button className="btn m1h" onClick={this.hideForm}>
+              add product
+            </button>
+          )}
+        </div>
+
+        <div className="row ">
+          <AddForm
+            className="col s6"
+            handleAddProduct={this.handleAddProduct}
+            add="Add Product"
+            hide={this.state.hide}
+            name={this.state.name}
+            handleProductName={this.handleProductName}
+            description={this.state.description}
+            handleProductDescription={this.handleProductDescription}
+            price={this.state.price}
+            handleProductPrice={this.handleProductPrice}
+            store={this.state.store}
+            handleProductStore={this.handleProductStore}
+          />
+
+          <EditForm
+            className="col s6"
+            handleEditProduct={this.handleEditProduct}
+            add="Edit Product"
+            hide={this.state.hide}
+            name={this.state.name}
+            handleProductName={this.handleProductName}
+            description={this.state.description}
+            handleProductDescription={this.handleProductDescription}
+            price={this.state.price}
+            handleProductPrice={this.handleProductPrice}
+            store={this.state.store}
+            handleProductStore={this.handleProductStore}
+            id={this.state.id}
+            handleId={this.handleId}
+          />
+        </div>
       </div>
     );
   }
