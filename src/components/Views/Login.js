@@ -11,9 +11,10 @@ class Login extends Component {
     redirect: false,
   };
   redirectSuccess = () => {
+    const [user, pwd] = [this.state.username,this.state.pwd]
+    const [adminLogin , adminPwd] = [this.state.adminLogin , this.state.adminPwd]
     if (
-      this.state.username === this.state.adminLogin &&
-      this.state.pwd === this.state.adminPwd
+      user === adminLogin && pwd === adminPwd
     ) {
       console.log("Passed");
       this.props.history.push("/account") &&

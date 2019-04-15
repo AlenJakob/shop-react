@@ -2,27 +2,27 @@ import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import "../components/Views/Navbar.css";
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // } // usules constructor ...
   state = {
     isLoggedIn: localStorage.getItem("isLoggedIn") ? true : false,
     token: localStorage.getItem("token")
   };
   handleLogout = e => {
     e.preventDefault();
-    console.log("logout function run");
+    console.log("admin has logged out !");
     localStorage.removeItem("isLoggedIn");
     return this.props.history.push("/home");
   };
   componentDidMount = () => {
-    console.log("token ", this.state.token);
-    console.log(" ", this.state.isLoggedIn);
-    console.log(this.props);
+    // console.log("token ", this.state.token);
+    // console.log(" ", this.state.isLoggedIn);
+    // console.log(this.props);
   };
   render() {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    console.log(this.state.isLogged);
+    // console.log(this.state.isLogged);
     return (
         <nav>
           <div className="nav-wrapper cyan darken-5">
